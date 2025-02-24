@@ -12,19 +12,21 @@ export default async function IdPage({params: { id }} : Props) {
     console.log('rendering IdPage');
 
     const sm = shellManager();
-    sm.getUsername = (async () => {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const [, username] = id.split('-');
-        return username;
-    });
-    sm.getTheme = (async () => {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const [theme] = id.split('-');
-        return theme;
-    });
+    let usernameResolve: (username: string) => void;
+    let themeResolve: (username: string) => void;
+    const usernamePromise = new Promise<string>(resolve => usernameResolve = resolve);
+    const themePromise = new Promise<string>(resolve => themeResolve = resolve);
+    sm.getUsername = () => usernamePromise;
+    sm.getTheme = () => themePromise;
     console.log('shellManager setup complete')
 
-    const [ theme, username ] = await Promise.all([sm.getTheme(), sm.getUsername()]);
+    const { theme, username } = await (async () => {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const [theme, username] = id.split('-');
+        return { theme, username };
+    })();
+    usernameResolve!(username);
+    themeResolve!(theme);
 
     sm.username = username;
     sm.theme = theme;
