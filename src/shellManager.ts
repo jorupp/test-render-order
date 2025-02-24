@@ -7,4 +7,6 @@ export const shellManager = cache((): ShellManager => {
 export type ShellManager = {
     theme?: string;
     username?: string;
+    getUsername?: () => Promise<string>;
+    getTheme?: () => Promise<string>;
 }

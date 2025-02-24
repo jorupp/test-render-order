@@ -11,6 +11,16 @@ rendered RootLayout
 rendered IdPage
 ```
 
+With a more complex shellManager implementation (ie. putting a promise to get the data in the shellManager before the first await), this _does_ work.
+
+```txt
+rendering IdPage
+shellManager setup complete
+rendering RootLayout
+rendered IdPage
+rendered RootLayout
+```
+
 ## Getting Started
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
