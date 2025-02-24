@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { shellManager } from "@/shellManager";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,11 +24,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+      console.log('rendering RootLayout');
+  
+      const sm = shellManager();
+      console.log('rendered RootLayout');
+  
   return (
-    <html lang="en">
+    <html lang="en" data-theme={sm.theme}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div>
+          <h3>This is Layout</h3>
+            <ul>
+                <li>username: {sm.username}</li>
+                <li>theme: {sm.theme}</li>
+            </ul>
+
+        </div>
         {children}
       </body>
     </html>
